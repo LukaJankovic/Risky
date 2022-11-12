@@ -23,7 +23,8 @@ architecture behavior of r_reg_file is
 
 begin
 
-    process (clk) begin
+    regfile_access : process (clk)
+    begin
         if rising_edge (clk) then
             if (reset = '1') then
                 registers <= (others => (others => '0'));
@@ -37,4 +38,4 @@ begin
         end if;
     end process;
 
-end behavior;
+end architecture;

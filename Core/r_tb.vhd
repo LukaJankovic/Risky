@@ -58,7 +58,13 @@ architecture behavior of r_tb is
 
 begin
 
-    U : r_main port map (clk, reset, mmem_address, mmem_write_data, mmem_read_data);
+    U : r_main port map (
+        clk,
+        reset,
+        mmem_address,
+        mmem_write_data,
+        mmem_read_data
+    );
 
     clk_process : process
     begin
