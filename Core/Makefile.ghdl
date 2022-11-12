@@ -1,0 +1,29 @@
+STOP_TIME ?= 100ns
+
+GHDL=ghdl
+GHDL_FLAGS=--ieee=synopsys --warn-no-vital-generic
+
+GTKWAVE=gtkwave
+
+SRC=$(wildcard *.vhd)
+OBJS=$(addsuffix .o,$(basename $(SRC)))
+TB=r_tb
+TB_FLAGS=--wave=$(TB).ghw --stop-time=$(STOP_TIME)
+
+all: sim clean
+
+%.o: %.vhd
+	$(GHDL) -a $(GHDL_FLAGS) $(SRC)
+
+$(TB): $(OBJS)
+	$(GHDL) -e $(GHDL_FLAGS) $@
+
+$(TB).ghw: $(TB)
+	./$(TB) $(TB_FLAGS)
+
+sim: $(TB).ghw
+	$(GTKWAVE) $<
+
+.PHONY: clean
+clean:
+	rm -f $(OBJS) $(TB) $(TB).ghw *.cf *.o

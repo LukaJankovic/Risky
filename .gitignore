@@ -1,0 +1,12 @@
+# Core
+Core/*.log
+Core/*.jou
+Core/*.wdb
+Core/*.pb
+Core/xsim.dir
+Core/.Xil
+
+# Prog
+Prog/*.o
+Prog/*.hex
+Prog/*.coe
