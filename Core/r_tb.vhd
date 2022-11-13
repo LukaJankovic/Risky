@@ -8,7 +8,7 @@ use ieee.numeric_std.all;
 use std.textio.all;
 
 entity r_tb is
-end r_tb;
+end entity;
 
 architecture behavior of r_tb is
 

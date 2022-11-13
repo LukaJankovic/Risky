@@ -14,4 +14,4 @@ sim:
 
 .PHONY: clean
 clean:
-	rm -rf *.log *.jou *.wdb *.pb xsim.dir .Xil
+	rm -rf *.log *.jou *.wdb *.pb *.str xsim.dir .Xil

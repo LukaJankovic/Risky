@@ -11,7 +11,7 @@ entity r_ifetch is
         o_iaddr : out std_logic_vector (31 downto 0)
     );
 
-end r_ifetch;
+end entity;
 
 architecture behavior of r_ifetch is
 

@@ -2,6 +2,7 @@ library ieee;
 library work;
 
 use ieee.std_logic_1164.all;
+
 use work.constants.all;
 
 entity r_idecode is
@@ -14,10 +15,13 @@ entity r_idecode is
 
         o_imm   : out std_logic_vector (31 downto 0);
         o_rs1   : out std_logic_vector (4 downto 0);
-        o_rs2   : out std_logic_vector (4 downto 0)
+        o_rs2   : out std_logic_vector (4 downto 0);
+        
+        o_alu_op    : out std_logic_vector (2 downto 0);
+        o_alu_neg   : out std_logic
     );
 
-end r_idecode;
+end entity;
 
 architecture behavior of r_idecode is
 
@@ -29,6 +33,8 @@ architecture behavior of r_idecode is
     alias rs1   : std_logic_vector (4 downto 0) is instruction (19 downto 15);
     alias rs2   : std_logic_vector (4 downto 0) is instruction (24 downto 20);
 
+    alias alu_op    : std_logic_vector (2 downto 0) is instruction (14 downto 12);
+    alias alu_neg   : std_logic is instruction (30);
 begin
 
     decode_immediate : process (instruction)
@@ -36,14 +42,19 @@ begin
         case op is
             when OP_JALR | OP_LB | OP_ADDI => -- I type
                 immediate <= (31 downto 12 => instruction (31)) & instruction (31 downto 20);
+
             when OP_SB => -- S type
                 immediate <= (31 downto 12 => instruction (31)) & instruction (31 downto 25) & instruction (11 downto 7);
+
             when OP_BEQ => -- B type
                 immediate <= (31 downto 13 => instruction (31)) & instruction (31) & instruction (7) & instruction (30 downto 25) & instruction (11 downto 8) & '0';
+
             when OP_LUI | OP_AUIPC => -- U type
                 immediate <= instruction (31 downto 12) & (11 downto 0 => '0');
+
             when OP_JAL => -- J type
                 immediate <= (31 downto 21 => instruction (31)) & instruction(31) & instruction (19 downto 12) & instruction (20) & instruction (30 downto 21) & '0';
+                
             when others => -- R type, ...
                 immediate <= (others => '0');
         end case;
@@ -54,6 +65,9 @@ begin
     o_imm <= immediate;
     o_rs1 <= rs1;
     o_rs2 <= rs2;
+
+    o_alu_op <= alu_op;
+    o_alu_neg <= alu_neg;
 
     -- TODO: calculate target pc when jump
 

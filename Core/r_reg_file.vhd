@@ -1,4 +1,5 @@
 library ieee;
+
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
@@ -9,17 +10,17 @@ entity r_reg_file is
         reset : in std_logic;
 
         i_addr1 : in std_logic_vector (4 downto 0);
-        o_data1 : out std_logic_vector (31 downto 0);
+        o_data1 : out std_logic_vector (31 downto 0) := (others => '0');
 
         i_addr2 : in std_logic_vector (4 downto 0);
-        o_data2 : out std_logic_vector (31 downto 0);
+        o_data2 : out std_logic_vector (31 downto 0) := (others => '0');
 
         i_waddr : in std_logic_vector (4 downto 0);
         i_wdata : in std_logic_vector (31 downto 0);
         i_we : in std_logic
     );
 
-end r_reg_file;
+end entity;
 
 architecture behavior of r_reg_file is
 
