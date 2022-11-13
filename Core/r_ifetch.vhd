@@ -30,4 +30,6 @@ begin
         end if;
     end process;
 
+    o_iaddr <= pc;
+
 end architecture;

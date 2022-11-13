@@ -2,6 +2,7 @@
 Core/*.log
 Core/*.jou
 Core/*.wdb
+Core/*.wcfg
 Core/*.pb
 Core/xsim.dir
 Core/.Xil
