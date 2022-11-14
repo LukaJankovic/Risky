@@ -54,6 +54,8 @@ architecture behavior of r_main is
             reset   : in std_logic;
 
             i_inst  : in std_logic_vector (31 downto 0);
+            i_pc    : in std_logic_vector (31 downto 0);
+            o_pc    : out std_logic_vector (31 downto 0);
 
             o_imm   : out std_logic_vector (31 downto 0);
             o_rs1   : out std_logic_vector (4 downto 0);
@@ -73,6 +75,8 @@ architecture behavior of r_main is
 
             i_inst  : in std_logic_vector (31 downto 0);
             o_inst  : out std_logic_vector (31 downto 0);
+
+            i_pc    : in std_logic_vector (31 downto 0);
 
             i_imm   : in std_logic_vector (31 downto 0);
             i_arg1  : in std_logic_vector (31 downto 0);
@@ -114,6 +118,8 @@ architecture behavior of r_main is
     signal ifetch_o_iaddr   : std_logic_vector (31 downto 0);
 
     signal idecode_i_inst       : std_logic_vector (31 downto 0);
+    signal idecode_i_pc         : std_logic_vector (31 downto 0);
+    signal idecode_o_pc         : std_logic_vector (31 downto 0);
     signal idecode_o_imm        : std_logic_vector (31 downto 0);
     signal idecode_o_rs1        : std_logic_vector (4 downto 0);
     signal idecode_o_rs2        : std_logic_vector (4 downto 0);
@@ -122,6 +128,7 @@ architecture behavior of r_main is
 
     signal iexec_i_inst     : std_logic_vector (31 downto 0);
     signal iexec_o_inst     : std_logic_vector (31 downto 0);
+    signal iexec_i_pc       : std_logic_vector (31 downto 0);
     signal iexec_i_imm      : std_logic_vector (31 downto 0);
     signal iexec_i_arg1     : std_logic_vector (31 downto 0);
     signal iexec_i_arg2     : std_logic_vector (31 downto 0);
@@ -159,6 +166,8 @@ begin
         clk         => clk,
         reset       => reset,
         i_inst      => idecode_i_inst,
+        i_pc        => idecode_i_pc,
+        o_pc        => idecode_o_pc,
         o_imm       => idecode_o_imm,
         o_rs1       => idecode_o_rs1,
         o_rs2       => idecode_o_rs2,
@@ -171,6 +180,7 @@ begin
         reset       => reset,
         i_inst      => iexec_i_inst,
         o_inst      => iexec_o_inst,
+        i_pc        => iexec_i_pc,
         i_imm       => iexec_i_imm,
         i_arg1      => iexec_i_arg1,
         i_arg2      => iexec_i_arg2,
@@ -199,6 +209,13 @@ begin
         end if;
     end process;
 
+    idecode_pc : process (clk)
+    begin
+        if rising_edge (clk) then
+            idecode_i_pc <= ifetch_o_iaddr;
+        end if;
+    end process;
+
     mmem_address <= ifetch_o_iaddr;
 
     idecode_i_inst <= mmem_read_data;
@@ -206,6 +223,7 @@ begin
     reg_file_i_addr1 <= idecode_o_rs1;
     reg_file_i_addr2 <= idecode_o_rs2;
 
+    iexec_i_pc <= idecode_o_pc;
     iexec_i_arg1 <= reg_file_o_data1;
     iexec_i_arg2 <= reg_file_o_data2;
 

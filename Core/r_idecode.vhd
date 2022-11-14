@@ -12,6 +12,8 @@ entity r_idecode is
         reset   : in std_logic;
 
         i_inst  : in std_logic_vector (31 downto 0);
+        i_pc    : in std_logic_vector (31 downto 0);
+        o_pc    : out std_logic_vector (31 downto 0);
 
         o_imm   : out std_logic_vector (31 downto 0);
         o_rs1   : out std_logic_vector (4 downto 0);
@@ -37,6 +39,8 @@ architecture behavior of r_idecode is
     alias alu_neg   : std_logic is instruction (30);
 begin
 
+    -- TODO: test clocked processes
+
     decode_immediate : process (instruction)
     begin
         case op is
@@ -60,13 +64,30 @@ begin
         end case;
     end process;
 
+    decode_alu_op : process (instruction)
+    begin
+        case op is
+            when OP_ADDI | OP_ADD =>
+                o_alu_op <= alu_op;
+
+            when others =>
+                o_alu_op <= (others => '0');
+        end case;
+    end process;
+
+    pc : process (clk)
+    begin
+        if rising_edge (clk) then
+            o_pc <= i_pc;
+        end if;
+    end process;
+
     instruction <= i_inst;
 
     o_imm <= immediate;
     o_rs1 <= rs1;
     o_rs2 <= rs2;
 
-    o_alu_op <= alu_op;
     o_alu_neg <= alu_neg;
 
     -- TODO: calculate target pc when jump

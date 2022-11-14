@@ -34,10 +34,11 @@ begin
     begin
         if rising_edge (clk) then
             case op is
-                when OP_ADD | OP_ADDI =>
+                when OP_ADD | OP_ADDI | OP_LUI =>
                     o_reg_addr <= rd;
                     o_reg_data <= i_ar;
                     o_reg_we <= '1';
+
                 when others =>
                     o_reg_addr <= (others => '0');
                     o_reg_data <= (others => '0');

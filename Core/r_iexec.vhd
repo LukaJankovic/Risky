@@ -15,6 +15,8 @@ entity r_iexec is
         i_inst  : in std_logic_vector (31 downto 0);
         o_inst  : out std_logic_vector (31 downto 0);
 
+        i_pc    : in std_logic_vector (31 downto 0);
+
         i_imm   : in std_logic_vector (31 downto 0);
         i_arg1  : in std_logic_vector (31 downto 0);
         i_arg2  : in std_logic_vector (31 downto 0);
@@ -59,15 +61,32 @@ architecture behavior of r_iexec is
 
 begin
 
-    a1 <= unsigned (i_arg1);
+    a1_mux : process (i_inst)
+        begin
+            case op is 
+                when OP_ADD =>
+                    a1 <= unsigned (i_arg1);
+
+                when OP_AUIPC =>
+                    a1 <= unsigned (i_pc);
+
+                when others =>
+                    a1 <= (others => '0');
+        end case;
+    end process;
 
     a2_mux : process (i_inst)
     begin
-        if (op = OP_ADD) then
-            a2 <= unsigned (i_arg2);
-        elsif (op = OP_ADDI) then
-            a2 <= unsigned (i_imm);
-        end if;
+        case op is
+            when OP_ADD =>
+                a2 <= unsigned (i_arg2);
+
+            when OP_ADDI | OP_LB | OP_JALR | OP_LUI | OP_AUIPC =>
+                a2 <= unsigned (i_imm);
+
+            when others =>
+                a2 <= (others => '0');
+        end case;
     end process;
 
     alu : process (clk)

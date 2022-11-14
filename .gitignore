@@ -4,6 +4,7 @@ Core/*.jou
 Core/*.wdb
 Core/*.wcfg
 Core/*.pb
+Core/*.str
 Core/xsim.dir
 Core/.Xil
 
