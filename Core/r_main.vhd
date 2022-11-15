@@ -7,10 +7,15 @@ entity r_main is
         clk     : in std_logic;
         reset   : in std_logic;
 
-        mmem_address    : out std_logic_vector (31 downto 0);
-        mmem_read_data  : in std_logic_vector (31 downto 0);
-        mmem_write_data : out std_logic_vector (31 downto 0);
-        mmem_we         : out std_logic
+        mmem1_address       : out std_logic_vector (31 downto 0);
+        mmem1_read_data     : in std_logic_vector (31 downto 0);
+        mmem1_write_data    : out std_logic_vector (31 downto 0);
+        mmem1_we            : out std_logic;
+
+        mmem2_address       : out std_logic_vector (31 downto 0);
+        mmem2_read_data     : in std_logic_vector (31 downto 0);
+        mmem2_write_data    : out std_logic_vector (31 downto 0);
+        mmem2_we            : out std_logic
     );
 
 end entity;
@@ -54,6 +59,7 @@ architecture behavior of r_main is
             reset   : in std_logic;
 
             i_inst  : in std_logic_vector (31 downto 0);
+            o_inst  : out std_logic_vector (31 downto 0);
             i_pc    : in std_logic_vector (31 downto 0);
             o_pc    : out std_logic_vector (31 downto 0);
 
@@ -90,6 +96,24 @@ architecture behavior of r_main is
 
     end component;
 
+    component r_memory is
+
+        port (
+            clk     : in std_logic; 
+            reset   : in std_logic;
+
+            i_inst  : in std_logic_vector (31 downto 0);
+            o_inst  : out std_logic_vector (31 downto 0);
+
+            i_ar    : in std_logic_vector (31 downto 0);
+            o_ar    : out std_logic_vector (31 downto 0);
+
+            o_addr  : out std_logic_vector (31 downto 0);
+            o_we    : out std_logic
+        );
+
+    end component;
+
     component r_writeback is
 
         port (
@@ -99,6 +123,7 @@ architecture behavior of r_main is
             i_inst  : in std_logic_vector (31 downto 0);
 
             i_ar    : in std_logic_vector (31 downto 0);
+            i_mem   : in std_logic_vector (31 downto 0);
 
             o_reg_addr  : out std_logic_vector (4 downto 0);
             o_reg_data  : out std_logic_vector (31 downto 0);
@@ -118,6 +143,7 @@ architecture behavior of r_main is
     signal ifetch_o_iaddr   : std_logic_vector (31 downto 0);
 
     signal idecode_i_inst       : std_logic_vector (31 downto 0);
+    signal idecode_o_inst       : std_logic_vector (31 downto 0);
     signal idecode_i_pc         : std_logic_vector (31 downto 0);
     signal idecode_o_pc         : std_logic_vector (31 downto 0);
     signal idecode_o_imm        : std_logic_vector (31 downto 0);
@@ -136,8 +162,16 @@ architecture behavior of r_main is
     signal iexec_i_alu_neg  : std_logic;
     signal iexec_o_alu_res  : std_logic_vector (31 downto 0);
 
+    signal memory_i_inst    : std_logic_vector (31 downto 0);
+    signal memory_o_inst    : std_logic_vector (31 downto 0);
+    signal memory_i_ar      : std_logic_vector (31 downto 0);
+    signal memory_o_ar      : std_logic_vector (31 downto 0);
+    signal memory_o_addr    : std_logic_vector (31 downto 0);
+    signal memory_o_we      : std_logic;
+
     signal writeback_i_inst     : std_logic_vector (31 downto 0);
     signal writeback_i_ar       : std_logic_vector (31 downto 0);
+    signal writeback_i_mem      : std_logic_vector (31 downto 0);
     signal writeback_o_reg_addr : std_logic_vector (4 downto 0);
     signal writeback_o_reg_data : std_logic_vector (31 downto 0);
     signal writeback_o_reg_we   : std_logic;
@@ -166,6 +200,7 @@ begin
         clk         => clk,
         reset       => reset,
         i_inst      => idecode_i_inst,
+        o_inst      => idecode_o_inst,
         i_pc        => idecode_i_pc,
         o_pc        => idecode_o_pc,
         o_imm       => idecode_o_imm,
@@ -189,11 +224,23 @@ begin
         o_alu_res   => iexec_o_alu_res
     );
 
+    memory : r_memory port map (
+        clk     => clk,
+        reset   => reset,
+        i_inst  => memory_i_inst,
+        o_inst  => memory_o_inst,
+        i_ar    => memory_i_ar,
+        o_ar    => memory_o_ar,
+        o_addr  => memory_o_addr,
+        o_we    => memory_o_we
+    );
+
     writeback : r_writeback port map (
         clk         => clk,
         reset       => reset,
         i_inst      => writeback_i_inst,
         i_ar        => writeback_i_ar,
+        i_mem       => writeback_i_mem,
         o_reg_addr  => writeback_o_reg_addr,
         o_reg_data  => writeback_o_reg_data,
         o_reg_we    => writeback_o_reg_we
@@ -202,7 +249,6 @@ begin
     iexec_inst : process (clk)
     begin
         if rising_edge (clk) then
-            iexec_i_inst <= idecode_i_inst;
             iexec_i_imm <= idecode_o_imm;
             iexec_i_alu_op <= idecode_o_alu_op;
             iexec_i_alu_neg <= idecode_o_alu_neg;
@@ -216,19 +262,26 @@ begin
         end if;
     end process;
 
-    mmem_address <= ifetch_o_iaddr;
+    mmem1_address <= ifetch_o_iaddr;
 
-    idecode_i_inst <= mmem_read_data;
+    idecode_i_inst <= mmem1_read_data;
 
     reg_file_i_addr1 <= idecode_o_rs1;
     reg_file_i_addr2 <= idecode_o_rs2;
 
     iexec_i_pc <= idecode_o_pc;
+    iexec_i_inst <= idecode_o_inst;
     iexec_i_arg1 <= reg_file_o_data1;
     iexec_i_arg2 <= reg_file_o_data2;
 
-    writeback_i_inst <= iexec_o_inst;
-    writeback_i_ar <= iexec_o_alu_res;
+    memory_i_inst <= iexec_o_inst;
+    memory_i_ar <= iexec_o_alu_res;
+
+    mmem2_address <= memory_o_addr;
+
+    writeback_i_inst <= memory_o_inst;
+    writeback_i_ar <= memory_o_ar;
+    writeback_i_mem <= mmem2_read_data;
 
     reg_file_i_waddr <= writeback_o_reg_addr;
     reg_file_i_wdata <= writeback_o_reg_data;

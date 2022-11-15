@@ -97,7 +97,7 @@ begin
                     if (i_alu_neg = '0') then
                         ar <= a1 + a2;
                     else
-                        ar <= a1 - a2;
+                        ar <= a1 - a2; -- TODO: use only one ALU
                     end if;
                 
                 when "001" =>

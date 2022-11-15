@@ -1,3 +1,5 @@
+-- TODO: read https://passlab.github.io/CSE564/notes/lecture08_RISCV_Impl.pdf
+
 library ieee;
 library work;
 
@@ -12,6 +14,7 @@ entity r_idecode is
         reset   : in std_logic;
 
         i_inst  : in std_logic_vector (31 downto 0);
+        o_inst  : out std_logic_vector (31 downto 0);
         i_pc    : in std_logic_vector (31 downto 0);
         o_pc    : out std_logic_vector (31 downto 0);
 
@@ -79,6 +82,7 @@ begin
     begin
         if rising_edge (clk) then
             o_pc <= i_pc;
+            o_inst <= i_inst;
         end if;
     end process;
 

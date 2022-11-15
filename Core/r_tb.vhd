@@ -42,11 +42,16 @@ architecture behavior of r_tb is
         port (
             clk     : in std_logic;
             reset   : in std_logic;
-
-            mmem_address    : out std_logic_vector (31 downto 0);
-            mmem_read_data  : in std_logic_vector (31 downto 0);
-            mmem_write_data : out std_logic_vector (31 downto 0);
-            mmem_we         : out std_logic
+    
+            mmem1_address       : out std_logic_vector (31 downto 0);
+            mmem1_read_data     : in std_logic_vector (31 downto 0);
+            mmem1_write_data    : out std_logic_vector (31 downto 0);
+            mmem1_we            : out std_logic;
+    
+            mmem2_address       : out std_logic_vector (31 downto 0);
+            mmem2_read_data     : in std_logic_vector (31 downto 0);
+            mmem2_write_data    : out std_logic_vector (31 downto 0);
+            mmem2_we            : out std_logic
         );
 
     end component;
@@ -56,10 +61,15 @@ architecture behavior of r_tb is
     signal clk      : std_logic;
     signal reset    : std_logic := '0';
     
-    signal mmem_address     : std_logic_vector (31 downto 0) := (others => '0');
-    signal mmem_write_data  : std_logic_vector (31 downto 0) := (others => '0');
-    signal mmem_read_data   : std_logic_vector (31 downto 0) := (others => '0');
-    signal mmem_we          : std_logic := '0';
+    signal mmem1_address    : std_logic_vector (31 downto 0) := (others => '0');
+    signal mmem1_write_data : std_logic_vector (31 downto 0) := (others => '0');
+    signal mmem1_read_data  : std_logic_vector (31 downto 0) := (others => '0');
+    signal mmem1_we         : std_logic := '0';
+
+    signal mmem2_address    : std_logic_vector (31 downto 0) := (others => '0');
+    signal mmem2_write_data : std_logic_vector (31 downto 0) := (others => '0');
+    signal mmem2_read_data  : std_logic_vector (31 downto 0) := (others => '0');
+    signal mmem2_we         : std_logic := '0';
 
     constant PERIOD : time := 8 ns;
 
@@ -68,9 +78,14 @@ begin
     U : r_main port map (
         clk                 => clk,
         reset               => reset,
-        mmem_address        => mmem_address,
-        mmem_write_data     => mmem_write_data,
-        mmem_read_data      => mmem_read_data
+        mmem1_address       => mmem1_address,
+        mmem1_write_data    => mmem1_write_data,
+        mmem1_read_data     => mmem1_read_data,
+        mmem1_we            => mmem1_we,
+        mmem2_address       => mmem2_address,
+        mmem2_write_data    => mmem2_write_data,
+        mmem2_read_data     => mmem2_read_data,
+        mmem2_we            => mmem2_we
     );
 
     clk_process : process
@@ -86,13 +101,22 @@ begin
         if rising_edge (clk) then
             -- TODO: add write memory
 
-            if (to_integer (unsigned (mmem_address)) < MEM_SIZE) then
-                mmem_read_data <=   memory (to_integer (unsigned (mmem_address) + 3)) &
-                                    memory (to_integer (unsigned (mmem_address) + 2)) &
-                                    memory (to_integer (unsigned (mmem_address) + 1)) &
-                                    memory (to_integer (unsigned (mmem_address)));
+            if (to_integer (unsigned (mmem1_address)) < MEM_SIZE) then
+                mmem1_read_data <=   memory (to_integer (unsigned (mmem1_address) + 3)) &
+                                     memory (to_integer (unsigned (mmem1_address) + 2)) &
+                                     memory (to_integer (unsigned (mmem1_address) + 1)) &
+                                     memory (to_integer (unsigned (mmem1_address)));
             else
-                mmem_read_data <= (others => 'X');
+                mmem1_read_data <= (others => 'X');
+            end if;
+
+            if (to_integer (unsigned (mmem2_address)) < MEM_SIZE) then
+                mmem2_read_data <=   memory (to_integer (unsigned (mmem2_address) + 3)) &
+                                     memory (to_integer (unsigned (mmem2_address) + 2)) &
+                                     memory (to_integer (unsigned (mmem2_address) + 1)) &
+                                     memory (to_integer (unsigned (mmem2_address)));
+            else
+                mmem2_read_data <= (others => 'X');
             end if;
         end if;
     end process;

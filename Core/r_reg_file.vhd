@@ -39,6 +39,7 @@ begin
                     registers (to_integer (unsigned (i_waddr))) <= i_wdata;
                 end if;
 
+                -- TODO: move outside process?
                 o_data1 <= registers (to_integer (unsigned (i_addr1)));
                 o_data2 <= registers (to_integer (unsigned (i_addr2)));
             end if;
