@@ -91,7 +91,8 @@ architecture behavior of r_main is
             i_alu_op    : in std_logic_vector (2 downto 0);
             i_alu_neg   : in std_logic;
 
-            o_alu_res   : out std_logic_vector (31 downto 0)
+            o_alu_res   : out std_logic_vector (31 downto 0);
+            o_mdata     : out std_logic_vector (31 downto 0)
         );
 
     end component;
@@ -105,10 +106,12 @@ architecture behavior of r_main is
             i_inst  : in std_logic_vector (31 downto 0);
             o_inst  : out std_logic_vector (31 downto 0);
 
+            i_mdata : in std_logic_vector (31 downto 0);
             i_ar    : in std_logic_vector (31 downto 0);
             o_ar    : out std_logic_vector (31 downto 0);
 
             o_addr  : out std_logic_vector (31 downto 0);
+            o_mdata : out std_logic_vector (31 downto 0);
             o_we    : out std_logic
         );
 
@@ -161,11 +164,14 @@ architecture behavior of r_main is
     signal iexec_i_alu_op   : std_logic_vector (2 downto 0);
     signal iexec_i_alu_neg  : std_logic;
     signal iexec_o_alu_res  : std_logic_vector (31 downto 0);
+    signal iexec_o_mdata    : std_logic_vector (31 downto 0);
 
     signal memory_i_inst    : std_logic_vector (31 downto 0);
     signal memory_o_inst    : std_logic_vector (31 downto 0);
+    signal memory_i_mdata   : std_logic_vector (31 downto 0);
     signal memory_i_ar      : std_logic_vector (31 downto 0);
     signal memory_o_ar      : std_logic_vector (31 downto 0);
+    signal memory_o_mdata   : std_logic_vector (31 downto 0);
     signal memory_o_addr    : std_logic_vector (31 downto 0);
     signal memory_o_we      : std_logic;
 
@@ -221,7 +227,8 @@ begin
         i_arg2      => iexec_i_arg2,
         i_alu_op    => iexec_i_alu_op,
         i_alu_neg   => iexec_i_alu_neg,
-        o_alu_res   => iexec_o_alu_res
+        o_alu_res   => iexec_o_alu_res,
+        o_mdata     => iexec_o_mdata
     );
 
     memory : r_memory port map (
@@ -229,9 +236,11 @@ begin
         reset   => reset,
         i_inst  => memory_i_inst,
         o_inst  => memory_o_inst,
+        i_mdata => memory_i_mdata,
         i_ar    => memory_i_ar,
         o_ar    => memory_o_ar,
         o_addr  => memory_o_addr,
+        o_mdata => memory_o_mdata,
         o_we    => memory_o_we
     );
 
@@ -275,9 +284,12 @@ begin
     iexec_i_arg2 <= reg_file_o_data2;
 
     memory_i_inst <= iexec_o_inst;
+    memory_i_mdata <= iexec_o_mdata;
     memory_i_ar <= iexec_o_alu_res;
 
     mmem2_address <= memory_o_addr;
+    mmem2_write_data <= memory_o_mdata;
+    mmem2_we <= memory_o_we;
 
     writeback_i_inst <= memory_o_inst;
     writeback_i_ar <= memory_o_ar;

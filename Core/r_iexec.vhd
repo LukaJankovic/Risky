@@ -24,7 +24,8 @@ entity r_iexec is
         i_alu_op    : in std_logic_vector (2 downto 0);
         i_alu_neg   : in std_logic;
 
-        o_alu_res   : out std_logic_vector (31 downto 0)
+        o_alu_res   : out std_logic_vector (31 downto 0);
+        o_mdata     : out std_logic_vector (31 downto 0)
     );
 
 end entity;
@@ -64,7 +65,7 @@ begin
     a1_mux : process (i_inst)
         begin
             case op is 
-                when OP_ADD =>
+                when OP_ADD | OP_LB | OP_SB =>
                     a1 <= unsigned (i_arg1);
 
                 when OP_AUIPC =>
@@ -81,7 +82,7 @@ begin
             when OP_ADD =>
                 a2 <= unsigned (i_arg2);
 
-            when OP_ADDI | OP_LB | OP_JALR | OP_LUI | OP_AUIPC =>
+            when OP_ADDI | OP_LB | OP_JALR | OP_LUI | OP_AUIPC | OP_SB =>
                 a2 <= unsigned (i_imm);
 
             when others =>
@@ -143,5 +144,6 @@ begin
     end process;
 
     o_alu_res <= std_logic_vector (ar);
+    o_mdata <= i_arg2;
 
 end architecture;

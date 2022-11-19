@@ -14,10 +14,12 @@ entity r_memory is
         i_inst  : in std_logic_vector (31 downto 0);
         o_inst  : out std_logic_vector (31 downto 0);
 
+        i_mdata : in std_logic_vector (31 downto 0);
         i_ar    : in std_logic_vector (31 downto 0);
         o_ar    : out std_logic_vector (31 downto 0);
         
         o_addr  : out std_logic_vector (31 downto 0);
+        o_mdata : out std_logic_vector (31 downto 0);
         o_we    : out std_logic
     );
 
@@ -34,12 +36,15 @@ begin
         case op is
             when OP_LB =>
                 o_addr <= i_ar;
+                o_mdata <= (others => '0');
                 o_we <= '0';
             when OP_SB =>
                 o_addr <= i_ar;
+                o_mdata <= i_mdata;
                 o_we <= '1';
             when others =>
                 o_addr <= (others => '0');
+                o_mdata <= (others => '0');
                 o_we <= '0';
         end case;
     end process;

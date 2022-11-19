@@ -99,8 +99,6 @@ begin
     mmem_access : process (clk)
     begin
         if rising_edge (clk) then
-            -- TODO: add write memory
-
             if (to_integer (unsigned (mmem1_address)) < MEM_SIZE) then
                 mmem1_read_data <=   memory (to_integer (unsigned (mmem1_address) + 3)) &
                                      memory (to_integer (unsigned (mmem1_address) + 2)) &
@@ -117,6 +115,13 @@ begin
                                      memory (to_integer (unsigned (mmem2_address)));
             else
                 mmem2_read_data <= (others => 'X');
+            end if;
+
+            if (mmem2_we = '1') then
+                memory (to_integer (unsigned (mmem2_address) + 3)) <= mmem2_write_data (31 downto 24);
+                memory (to_integer (unsigned (mmem2_address) + 2)) <= mmem2_write_data (23 downto 16);
+                memory (to_integer (unsigned (mmem2_address) + 1)) <= mmem2_write_data (15 downto 8);
+                memory (to_integer (unsigned (mmem2_address))) <= mmem2_write_data (7 downto 0);
             end if;
         end if;
     end process;

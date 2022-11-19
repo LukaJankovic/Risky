@@ -35,7 +35,7 @@ begin
             if (reset = '1') then
                 registers <= (others => (others => '0'));
             else
-                if (i_we = '1') then
+                if (i_we = '1') and (i_waddr /= "0000") then
                     registers (to_integer (unsigned (i_waddr))) <= i_wdata;
                 end if;
 
