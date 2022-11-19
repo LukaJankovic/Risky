@@ -139,11 +139,18 @@ begin
 
             end case;
 
-            o_inst <= i_inst;
         end if;
     end process;
 
+    reg : process (clk)
+    begin
+        if rising_edge (clk) then
+            o_inst <= i_inst;
+            o_mdata <= i_arg2;
+        end if;
+    end process;
+
+
     o_alu_res <= std_logic_vector (ar);
-    o_mdata <= i_arg2;
 
 end architecture;

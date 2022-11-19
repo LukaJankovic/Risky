@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="r_tb_snapshot.wdb" id="1">
+         <top_modules>
+            <top_module name="constants" />
+            <top_module name="r_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="22.412 ns"></ZoomStartTime>
+      <ZoomEndTime time="152.782 ns"></ZoomEndTime>
+      <Cursor1Time time="96.362 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="276"></NameColumnWidth>
+      <ValueColumnWidth column_width="64"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="9" />
+   <wvobject type="logic" fp_name="/r_tb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="group" fp_name="group66">
+      <obj_property name="label">General</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/r_tb/reset">
+         <obj_property name="ElementShortName">reset</obj_property>
+         <obj_property name="ObjectShortName">reset</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group70">
+      <obj_property name="label">Main Memory</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/r_tb/mmem1_address">
+         <obj_property name="ElementShortName">mmem1_address[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mmem1_address[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/mmem1_write_data">
+         <obj_property name="ElementShortName">mmem1_write_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mmem1_write_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/mmem1_read_data">
+         <obj_property name="ElementShortName">mmem1_read_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mmem1_read_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/r_tb/mmem1_we">
+         <obj_property name="ElementShortName">mmem1_we</obj_property>
+         <obj_property name="ObjectShortName">mmem1_we</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/mmem2_address">
+         <obj_property name="ElementShortName">mmem2_address[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mmem2_address[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/mmem2_write_data">
+         <obj_property name="ElementShortName">mmem2_write_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mmem2_write_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/mmem2_read_data">
+         <obj_property name="ElementShortName">mmem2_read_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mmem2_read_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/r_tb/mmem2_we">
+         <obj_property name="ElementShortName">mmem2_we</obj_property>
+         <obj_property name="ObjectShortName">mmem2_we</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group79">
+      <obj_property name="label">Regs</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/r_tb/U/regs/registers">
+         <obj_property name="ElementShortName">registers[0:31][31:0]</obj_property>
+         <obj_property name="ObjectShortName">registers[0:31][31:0]</obj_property>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[0]">
+            <obj_property name="ElementShortName">[0][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[0][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[1]">
+            <obj_property name="ElementShortName">[1][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[2]">
+            <obj_property name="ElementShortName">[2][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[3]">
+            <obj_property name="ElementShortName">[3][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[4]">
+            <obj_property name="ElementShortName">[4][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[5]">
+            <obj_property name="ElementShortName">[5][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[6]">
+            <obj_property name="ElementShortName">[6][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[6][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[7]">
+            <obj_property name="ElementShortName">[7][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[7][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[8]">
+            <obj_property name="ElementShortName">[8][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[8][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[9]">
+            <obj_property name="ElementShortName">[9][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[9][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[10]">
+            <obj_property name="ElementShortName">[10][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[11]">
+            <obj_property name="ElementShortName">[11][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[11][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[12]">
+            <obj_property name="ElementShortName">[12][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[12][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[13]">
+            <obj_property name="ElementShortName">[13][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[13][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[14]">
+            <obj_property name="ElementShortName">[14][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[14][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[15]">
+            <obj_property name="ElementShortName">[15][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[15][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[16]">
+            <obj_property name="ElementShortName">[16][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[16][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[17]">
+            <obj_property name="ElementShortName">[17][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[17][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[18]">
+            <obj_property name="ElementShortName">[18][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[18][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[19]">
+            <obj_property name="ElementShortName">[19][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[19][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[20]">
+            <obj_property name="ElementShortName">[20][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[20][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[21]">
+            <obj_property name="ElementShortName">[21][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[21][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[22]">
+            <obj_property name="ElementShortName">[22][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[22][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[23]">
+            <obj_property name="ElementShortName">[23][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[23][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[24]">
+            <obj_property name="ElementShortName">[24][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[24][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[25]">
+            <obj_property name="ElementShortName">[25][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[25][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[26]">
+            <obj_property name="ElementShortName">[26][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[26][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[27]">
+            <obj_property name="ElementShortName">[27][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[27][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[28]">
+            <obj_property name="ElementShortName">[28][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[28][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[29]">
+            <obj_property name="ElementShortName">[29][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[29][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[30]">
+            <obj_property name="ElementShortName">[30][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[30][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/r_tb/U/regs/registers[31]">
+            <obj_property name="ElementShortName">[31][31:0]</obj_property>
+            <obj_property name="ObjectShortName">[31][31:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/regs/i_addr1">
+         <obj_property name="ElementShortName">i_addr1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">i_addr1[4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/regs/o_data1">
+         <obj_property name="ElementShortName">o_data1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_data1[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/regs/i_addr2">
+         <obj_property name="ElementShortName">i_addr2[4:0]</obj_property>
+         <obj_property name="ObjectShortName">i_addr2[4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/regs/o_data2">
+         <obj_property name="ElementShortName">o_data2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_data2[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/regs/i_waddr">
+         <obj_property name="ElementShortName">i_waddr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">i_waddr[4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/regs/i_wdata">
+         <obj_property name="ElementShortName">i_wdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_wdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/r_tb/U/regs/i_we">
+         <obj_property name="ElementShortName">i_we</obj_property>
+         <obj_property name="ObjectShortName">i_we</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group88">
+      <obj_property name="label">Fetch</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/r_tb/U/fetch/pc">
+         <obj_property name="ElementShortName">pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/fetch/o_iaddr">
+         <obj_property name="ElementShortName">o_iaddr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_iaddr[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group91">
+      <obj_property name="label">Decode</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/r_tb/U/decode/i_pc">
+         <obj_property name="ElementShortName">i_pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/decode/i_inst">
+         <obj_property name="ElementShortName">i_inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_inst[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/decode/o_inst">
+         <obj_property name="ElementShortName">o_inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_inst[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/decode/o_rs1">
+         <obj_property name="ElementShortName">o_rs1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">o_rs1[4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/decode/o_rs2">
+         <obj_property name="ElementShortName">o_rs2[4:0]</obj_property>
+         <obj_property name="ObjectShortName">o_rs2[4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/decode/o_alu_op">
+         <obj_property name="ElementShortName">o_alu_op[2:0]</obj_property>
+         <obj_property name="ObjectShortName">o_alu_op[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/r_tb/U/decode/o_alu_neg">
+         <obj_property name="ElementShortName">o_alu_neg</obj_property>
+         <obj_property name="ObjectShortName">o_alu_neg</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/decode/o_pc">
+         <obj_property name="ElementShortName">o_pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_pc[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group100">
+      <obj_property name="label">Exec</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/i_pc">
+         <obj_property name="ElementShortName">i_pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/i_inst">
+         <obj_property name="ElementShortName">i_inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_inst[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/i_imm">
+         <obj_property name="ElementShortName">i_imm[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_imm[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/i_arg1">
+         <obj_property name="ElementShortName">i_arg1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_arg1[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/i_arg2">
+         <obj_property name="ElementShortName">i_arg2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_arg2[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/i_alu_op">
+         <obj_property name="ElementShortName">i_alu_op[2:0]</obj_property>
+         <obj_property name="ObjectShortName">i_alu_op[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/r_tb/U/iexec/i_alu_neg">
+         <obj_property name="ElementShortName">i_alu_neg</obj_property>
+         <obj_property name="ObjectShortName">i_alu_neg</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/a1">
+         <obj_property name="ElementShortName">a1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">a1[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/a2">
+         <obj_property name="ElementShortName">a2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">a2[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/ar">
+         <obj_property name="ElementShortName">ar[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ar[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/o_mdata">
+         <obj_property name="ElementShortName">o_mdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_mdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/o_inst">
+         <obj_property name="ElementShortName">o_inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_inst[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group113">
+      <obj_property name="label">Memory</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/r_tb/U/memory/i_inst">
+         <obj_property name="ElementShortName">i_inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_inst[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/memory/i_mdata">
+         <obj_property name="ElementShortName">i_mdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_mdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/memory/o_addr">
+         <obj_property name="ElementShortName">o_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/memory/mdata">
+         <obj_property name="ElementShortName">mdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/memory/o_mdata">
+         <obj_property name="ElementShortName">o_mdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_mdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/r_tb/U/memory/o_we">
+         <obj_property name="ElementShortName">o_we</obj_property>
+         <obj_property name="ObjectShortName">o_we</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/memory/o_inst">
+         <obj_property name="ElementShortName">o_inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_inst[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group119">
+      <obj_property name="label">Writeback</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/r_tb/U/writeback/i_inst">
+         <obj_property name="ElementShortName">i_inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_inst[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/writeback/i_ar">
+         <obj_property name="ElementShortName">i_ar[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_ar[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/writeback/i_mem">
+         <obj_property name="ElementShortName">i_mem[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_mem[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/writeback/o_reg_addr">
+         <obj_property name="ElementShortName">o_reg_addr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">o_reg_addr[4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/writeback/o_reg_data">
+         <obj_property name="ElementShortName">o_reg_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_reg_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/r_tb/U/writeback/o_reg_we">
+         <obj_property name="ElementShortName">o_reg_we</obj_property>
+         <obj_property name="ObjectShortName">o_reg_we</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>
