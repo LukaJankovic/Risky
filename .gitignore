@@ -1,3 +1,8 @@
+# Vim
+*.swp
+*.swo
+*~
+
 # Core
 Core/*.log
 Core/*.jou
