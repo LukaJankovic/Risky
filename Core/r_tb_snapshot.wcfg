@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="22.412 ns"></ZoomStartTime>
-      <ZoomEndTime time="152.782 ns"></ZoomEndTime>
-      <Cursor1Time time="96.362 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="115.138 ns"></ZoomEndTime>
+      <Cursor1Time time="25.429 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="276"></NameColumnWidth>
-      <ValueColumnWidth column_width="64"></ValueColumnWidth>
+      <NameColumnWidth column_width="271"></NameColumnWidth>
+      <ValueColumnWidth column_width="57"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="9" />
    <wvobject type="logic" fp_name="/r_tb/clk">
@@ -35,7 +35,6 @@
    <wvobject type="group" fp_name="group70">
       <obj_property name="label">Main Memory</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="array" fp_name="/r_tb/mmem1_address">
          <obj_property name="ElementShortName">mmem1_address[31:0]</obj_property>
          <obj_property name="ObjectShortName">mmem1_address[31:0]</obj_property>
@@ -75,6 +74,7 @@
       <wvobject type="array" fp_name="/r_tb/U/regs/registers">
          <obj_property name="ElementShortName">registers[0:31][31:0]</obj_property>
          <obj_property name="ObjectShortName">registers[0:31][31:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
          <wvobject type="array" fp_name="/r_tb/U/regs/registers[0]">
             <obj_property name="ElementShortName">[0][31:0]</obj_property>
             <obj_property name="ObjectShortName">[0][31:0]</obj_property>
@@ -304,6 +304,14 @@
          <obj_property name="ElementShortName">i_arg2[31:0]</obj_property>
          <obj_property name="ObjectShortName">i_arg2[31:0]</obj_property>
       </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/arg1">
+         <obj_property name="ElementShortName">arg1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">arg1[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/arg2">
+         <obj_property name="ElementShortName">arg2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">arg2[31:0]</obj_property>
+      </wvobject>
       <wvobject type="array" fp_name="/r_tb/U/iexec/i_alu_op">
          <obj_property name="ElementShortName">i_alu_op[2:0]</obj_property>
          <obj_property name="ObjectShortName">i_alu_op[2:0]</obj_property>
@@ -332,11 +340,14 @@
          <obj_property name="ElementShortName">o_inst[31:0]</obj_property>
          <obj_property name="ObjectShortName">o_inst[31:0]</obj_property>
       </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/iexec/prev_dest">
+         <obj_property name="ElementShortName">prev_dest[4:0]</obj_property>
+         <obj_property name="ObjectShortName">prev_dest[4:0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject type="group" fp_name="group113">
       <obj_property name="label">Memory</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="array" fp_name="/r_tb/U/memory/i_inst">
          <obj_property name="ElementShortName">i_inst[31:0]</obj_property>
          <obj_property name="ObjectShortName">i_inst[31:0]</obj_property>
@@ -369,7 +380,6 @@
    <wvobject type="group" fp_name="group119">
       <obj_property name="label">Writeback</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="array" fp_name="/r_tb/U/writeback/i_inst">
          <obj_property name="ElementShortName">i_inst[31:0]</obj_property>
          <obj_property name="ObjectShortName">i_inst[31:0]</obj_property>

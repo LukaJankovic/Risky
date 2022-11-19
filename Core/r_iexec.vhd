@@ -56,31 +56,57 @@ architecture behavior of r_iexec is
 
     alias op : std_logic_vector (6 downto 0) is i_inst (6 downto 0);
 
+    alias rs1   : std_logic_vector (4 downto 0) is i_inst (19 downto 15);
+    alias rs2   : std_logic_vector (4 downto 0) is i_inst (24 downto 20);
+    alias rd : std_logic_vector (4 downto 0) is i_inst (11 downto 7);
+
+    signal arg1 : std_logic_vector (31 downto 0) := (others => '0');
+    signal arg2 : std_logic_vector (31 downto 0) := (others => '0');
+
     signal ar : unsigned (31 downto 0) := (others => '0');
     signal a1 : unsigned (31 downto 0) := (others => '0');
     signal a2 : unsigned (31 downto 0) := (others => '0');
 
+    signal prev_dest    : std_logic_vector (4 downto 0) := (others => '0');
+
 begin
 
-    a1_mux : process (i_inst)
-        begin
-            case op is 
-                when OP_ADD | OP_LB | OP_SB =>
-                    a1 <= unsigned (i_arg1);
+    data_fwd : process (i_inst, prev_dest)
+    begin
+        if (prev_dest = rs1) then
+            arg1 <= std_logic_vector (ar);
+            arg2 <= i_arg2;
 
-                when OP_AUIPC =>
-                    a1 <= unsigned (i_pc);
+        elsif (prev_dest = rs2) then
+            arg1 <= i_arg1;
+            arg2 <= std_logic_vector (ar);
 
-                when others =>
-                    a1 <= (others => '0');
+        else
+            arg1 <= i_arg1;
+            arg2 <= i_arg2;
+
+        end if;
+    end process;
+
+    a1_mux : process (i_inst, arg1)
+    begin
+        case op is 
+            when OP_ADD | OP_ADDI | OP_LB | OP_SB =>
+                a1 <= unsigned (arg1);
+
+            when OP_AUIPC =>
+                a1 <= unsigned (i_pc);
+
+            when others =>
+                a1 <= (others => '0');
         end case;
     end process;
 
-    a2_mux : process (i_inst)
+    a2_mux : process (i_inst, arg2)
     begin
         case op is
             when OP_ADD =>
-                a2 <= unsigned (i_arg2);
+                a2 <= unsigned (arg2);
 
             when OP_ADDI | OP_LB | OP_JALR | OP_LUI | OP_AUIPC | OP_SB =>
                 a2 <= unsigned (i_imm);
@@ -150,6 +176,12 @@ begin
         end if;
     end process;
 
+    save_df : process (clk)
+    begin
+        if rising_edge (clk) then
+            prev_dest <= rd;
+        end if;
+    end process;
 
     o_alu_res <= std_logic_vector (ar);
 
