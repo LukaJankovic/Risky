@@ -5,10 +5,13 @@ use ieee.numeric_std.all;
 entity r_ifetch is
 
     port (
-        clk     : in std_logic;
-        reset   : in std_logic;
+        clk         : in std_logic;
+        reset       : in std_logic;
 
-        o_iaddr : out std_logic_vector (31 downto 0)
+        i_next_pc   : in std_logic_vector (31 downto 0);
+        i_jmp       : in std_logic;
+
+        o_iaddr     : out std_logic_vector (31 downto 0)
     );
 
 end entity;
@@ -24,6 +27,8 @@ begin
         if rising_edge (clk) then
             if (reset = '1') then
                 pc <= (others => '0');
+            elsif (i_jmp = '1') then
+                pc <= i_next_pc;
             else
                 pc <= std_logic_vector (unsigned (pc) + 4);
             end if;

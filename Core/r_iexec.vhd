@@ -24,8 +24,13 @@ entity r_iexec is
         i_alu_op    : in std_logic_vector (2 downto 0);
         i_alu_neg   : in std_logic;
 
+        i_next_pc   : in std_logic_vector (31 downto 0);
+        i_cmp_op    : in std_logic_vector (2 downto 0);
+
         o_alu_res   : out std_logic_vector (31 downto 0);
-        o_mdata     : out std_logic_vector (31 downto 0)
+        o_cmp_res   : out std_logic;
+        o_mdata     : out std_logic_vector (31 downto 0);
+        o_next_pc   : out std_logic_vector (31 downto 0)
     );
 
 end entity;
@@ -67,11 +72,13 @@ architecture behavior of r_iexec is
     signal a1 : unsigned (31 downto 0) := (others => '0');
     signal a2 : unsigned (31 downto 0) := (others => '0');
 
+    signal cr : std_logic;
+
     signal prev_dest    : std_logic_vector (4 downto 0) := (others => '0');
 
 begin
 
-    data_fwd : process (i_inst, prev_dest)
+    data_fwd : process (i_inst)
     begin
         if (prev_dest = rs1) then
             arg1 <= std_logic_vector (ar);
@@ -168,6 +175,22 @@ begin
         end if;
     end process;
 
+    comparator : process (clk)
+    begin
+        if rising_edge (clk) then
+            case op is
+                when OP_BEQ =>
+                    o_next_pc <= i_next_pc;
+                    o_cmp_res <= cr;
+                
+                when others =>
+                    o_next_pc <= (others => 'X');
+                    o_cmp_res <= '0';
+
+            end case;
+        end if;
+    end process;
+
     reg : process (clk)
     begin
         if rising_edge (clk) then
@@ -184,5 +207,16 @@ begin
     end process;
 
     o_alu_res <= std_logic_vector (ar);
+    
+    -- Comparator (TODO: move to file)
+
+    cr <= '1' when (arg1 = arg2)                    and (i_cmp_op = "000") else
+          '1' when (arg1 /= arg2)                   and (i_cmp_op = "001") else
+          '1' when (signed (arg1) < signed (arg2))  and (i_cmp_op = "100") else
+          '1' when (signed (arg1) >= signed (arg2)) and (i_cmp_op = "101") else
+          '1' when (arg1 < arg2)                    and (i_cmp_op = "110") else
+          '1' when (arg1 >= arg2)                   and (i_cmp_op = "111") else
+          '0';
+
 
 end architecture;

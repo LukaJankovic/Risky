@@ -44,10 +44,13 @@ architecture behavior of r_main is
     component r_ifetch is
 
         port (
-            clk     : in std_logic;
-            reset   : in std_logic;
+            clk         : in std_logic;
+            reset       : in std_logic;
 
-            o_iaddr : out std_logic_vector (31 downto 0)
+            i_next_pc   : in std_logic_vector (31 downto 0);
+            i_jmp       : in std_logic;
+
+            o_iaddr     : out std_logic_vector (31 downto 0)
         );
 
     end component;
@@ -68,7 +71,11 @@ architecture behavior of r_main is
             o_rs2   : out std_logic_vector (4 downto 0);
 
             o_alu_op    : out std_logic_vector (2 downto 0);
-            o_alu_neg   : out std_logic
+            o_alu_neg   : out std_logic;
+
+            o_cmp_op    : out std_logic_vector (2 downto 0);
+
+            o_next_pc   : out std_logic_vector (31 downto 0)
         );
     
     end component;
@@ -91,8 +98,13 @@ architecture behavior of r_main is
             i_alu_op    : in std_logic_vector (2 downto 0);
             i_alu_neg   : in std_logic;
 
+            i_next_pc   : in std_logic_vector (31 downto 0);
+            i_cmp_op    : in std_logic_vector (2 downto 0);
+
             o_alu_res   : out std_logic_vector (31 downto 0);
-            o_mdata     : out std_logic_vector (31 downto 0)
+            o_cmp_res   : out std_logic;
+            o_mdata     : out std_logic_vector (31 downto 0);
+            o_next_pc   : out std_logic_vector (31 downto 0)
         );
 
     end component;
@@ -143,7 +155,9 @@ architecture behavior of r_main is
     signal reg_file_i_waddr : std_logic_vector (4 downto 0);
     signal reg_file_i_we    : std_logic;
 
-    signal ifetch_o_iaddr   : std_logic_vector (31 downto 0);
+    signal ifetch_o_iaddr       : std_logic_vector (31 downto 0);
+    signal ifetch_i_next_pc     : std_logic_vector (31 downto 0);
+    signal ifetch_i_jmp         : std_logic;
 
     signal idecode_i_inst       : std_logic_vector (31 downto 0);
     signal idecode_o_inst       : std_logic_vector (31 downto 0);
@@ -154,6 +168,8 @@ architecture behavior of r_main is
     signal idecode_o_rs2        : std_logic_vector (4 downto 0);
     signal idecode_o_alu_op     : std_logic_vector (2 downto 0);
     signal idecode_o_alu_neg    : std_logic;
+    signal idecode_o_cmp_op     : std_logic_vector (2 downto 0);
+    signal idecode_o_next_pc    : std_logic_vector (31 downto 0);
 
     signal iexec_i_inst     : std_logic_vector (31 downto 0);
     signal iexec_o_inst     : std_logic_vector (31 downto 0);
@@ -163,8 +179,12 @@ architecture behavior of r_main is
     signal iexec_i_arg2     : std_logic_vector (31 downto 0);
     signal iexec_i_alu_op   : std_logic_vector (2 downto 0);
     signal iexec_i_alu_neg  : std_logic;
+    signal iexec_i_next_pc  : std_logic_vector (31 downto 0);
+    signal iexec_i_cmp_op   : std_logic_vector (2 downto 0);
     signal iexec_o_alu_res  : std_logic_vector (31 downto 0);
+    signal iexec_o_cmp_res  : std_logic;
     signal iexec_o_mdata    : std_logic_vector (31 downto 0);
+    signal iexec_o_next_pc  : std_logic_vector (31 downto 0);
 
     signal memory_i_inst    : std_logic_vector (31 downto 0);
     signal memory_o_inst    : std_logic_vector (31 downto 0);
@@ -197,9 +217,11 @@ begin
     );
 
     fetch : r_ifetch port map (
-        clk     => clk,
-        reset   => reset,
-        o_iaddr => ifetch_o_iaddr
+        clk         => clk,
+        reset       => reset,
+        o_iaddr     => ifetch_o_iaddr,
+        i_next_pc   => ifetch_i_next_pc,
+        i_jmp       => ifetch_i_jmp
     );
 
     decode : r_idecode port map (
@@ -213,7 +235,9 @@ begin
         o_rs1       => idecode_o_rs1,
         o_rs2       => idecode_o_rs2,
         o_alu_op    => idecode_o_alu_op,
-        o_alu_neg   => idecode_o_alu_neg
+        o_alu_neg   => idecode_o_alu_neg,
+        o_cmp_op    => idecode_o_cmp_op,
+        o_next_pc   => idecode_o_next_pc
     );
 
     iexec : r_iexec port map (
@@ -227,8 +251,12 @@ begin
         i_arg2      => iexec_i_arg2,
         i_alu_op    => iexec_i_alu_op,
         i_alu_neg   => iexec_i_alu_neg,
+        i_next_pc   => iexec_i_next_pc,
+        i_cmp_op    => iexec_i_cmp_op,
         o_alu_res   => iexec_o_alu_res,
-        o_mdata     => iexec_o_mdata
+        o_cmp_res   => iexec_o_cmp_res,
+        o_mdata     => iexec_o_mdata,
+        o_next_pc   => iexec_o_next_pc
     );
 
     memory : r_memory port map (
@@ -261,6 +289,8 @@ begin
             iexec_i_imm <= idecode_o_imm;
             iexec_i_alu_op <= idecode_o_alu_op;
             iexec_i_alu_neg <= idecode_o_alu_neg;
+            iexec_i_next_pc <= idecode_o_next_pc;
+            iexec_i_cmp_op <= idecode_o_cmp_op;
         end if;
     end process;
 
@@ -272,6 +302,9 @@ begin
     end process;
 
     mmem1_address <= ifetch_o_iaddr;
+
+    ifetch_i_next_pc <= iexec_o_next_pc;
+    ifetch_i_jmp <= iexec_o_cmp_res;
 
     idecode_i_inst <= mmem1_read_data;
 

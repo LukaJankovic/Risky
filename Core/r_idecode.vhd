@@ -1,9 +1,8 @@
--- TODO: read https://passlab.github.io/CSE564/notes/lecture08_RISCV_Impl.pdf
-
 library ieee;
 library work;
 
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 use work.constants.all;
 
@@ -23,7 +22,11 @@ entity r_idecode is
         o_rs2   : out std_logic_vector (4 downto 0);
         
         o_alu_op    : out std_logic_vector (2 downto 0);
-        o_alu_neg   : out std_logic
+        o_alu_neg   : out std_logic;
+
+        o_cmp_op    : out std_logic_vector (2 downto 0);
+
+        o_next_pc   : out std_logic_vector (31 downto 0)
     );
 
 end entity;
@@ -40,6 +43,8 @@ architecture behavior of r_idecode is
 
     alias alu_op    : std_logic_vector (2 downto 0) is instruction (14 downto 12);
     alias alu_neg   : std_logic is instruction (30);
+
+    alias cmp_op    : std_logic_vector (2 downto 0) is instruction (14 downto 12);
 begin
 
     -- TODO: test clocked processes
@@ -75,6 +80,29 @@ begin
 
             when others =>
                 o_alu_op <= (others => '0');
+        end case;
+    end process;
+
+    decode_cmp_op : process (instruction)
+    begin
+        case op is
+            when OP_BEQ =>
+                o_cmp_op <= cmp_op;
+
+            when others =>
+                o_cmp_op <= (others => '0');
+        end case;
+    end process;
+
+
+    decode_branch : process (instruction)
+    begin
+        case op is
+            when OP_BEQ =>
+                o_next_pc <= std_logic_vector (unsigned (i_pc) + unsigned (immediate) - 5);
+
+            when others =>
+                o_next_pc <= (others => '0');
         end case;
     end process;
 
