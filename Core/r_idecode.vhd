@@ -36,6 +36,9 @@ architecture behavior of r_idecode is
     signal instruction  : std_logic_vector (31 downto 0) := (others => '0');
     signal immediate    : std_logic_vector (31 downto 0) := (others => '0');
 
+    signal bra_hazard : std_logic_vector (1 downto 0) := (others => '0');
+
+    alias i_op  : std_logic_vector (6 downto 0) is i_inst (6 downto 0);
     alias op    : std_logic_vector (6 downto 0) is instruction (6 downto 0);
 
     alias rs1   : std_logic_vector (4 downto 0) is instruction (19 downto 15);
@@ -48,6 +51,26 @@ architecture behavior of r_idecode is
 begin
 
     -- TODO: test clocked processes
+
+    detect_hazard : process (i_inst)
+    begin
+        if (i_op = OP_BEQ) then
+            bra_hazard <= "10";
+        elsif (bra_hazard /= "00") then
+            bra_hazard <= std_logic_vector (unsigned (bra_hazard) - 1);
+        else
+            bra_hazard <= (others => '0');
+        end if;
+    end process;
+
+    decode_instruction : process (i_inst)
+    begin
+        if (bra_hazard = "00") then
+            instruction <= i_inst;
+        else
+            instruction <= (others => '0');
+        end if;
+    end process;
 
     decode_immediate : process (instruction)
     begin
@@ -94,11 +117,10 @@ begin
         end case;
     end process;
 
-
-    decode_branch : process (instruction)
+    decode_jmp : process (instruction)
     begin
         case op is
-            when OP_BEQ =>
+            when OP_BEQ | OP_JAL =>
                 o_next_pc <= std_logic_vector (unsigned (i_pc) + unsigned (immediate) - 5);
 
             when others =>
@@ -113,8 +135,6 @@ begin
             o_inst <= i_inst;
         end if;
     end process;
-
-    instruction <= i_inst;
 
     o_imm <= immediate;
     o_rs1 <= rs1;

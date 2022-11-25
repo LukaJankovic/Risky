@@ -101,7 +101,7 @@ begin
             when OP_ADD | OP_ADDI | OP_LB | OP_SB =>
                 a1 <= unsigned (arg1);
 
-            when OP_AUIPC =>
+            when OP_AUIPC | OP_JAL =>
                 a1 <= unsigned (i_pc);
 
             when others =>

@@ -12,12 +12,12 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="125.698 ns"></ZoomEndTime>
-      <Cursor1Time time="31.424 ns"></Cursor1Time>
+      <ZoomEndTime time="157.088 ns"></ZoomEndTime>
+      <Cursor1Time time="5.134 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="255"></NameColumnWidth>
-      <ValueColumnWidth column_width="57"></ValueColumnWidth>
+      <NameColumnWidth column_width="222"></NameColumnWidth>
+      <ValueColumnWidth column_width="103"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="9" />
    <wvobject type="logic" fp_name="/r_tb/clk">
@@ -107,7 +107,6 @@
    <wvobject type="group" fp_name="group88">
       <obj_property name="label">Fetch</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="array" fp_name="/r_tb/U/fetch/pc">
          <obj_property name="ElementShortName">pc[31:0]</obj_property>
          <obj_property name="ObjectShortName">pc[31:0]</obj_property>
@@ -136,9 +135,17 @@
          <obj_property name="ElementShortName">i_inst[31:0]</obj_property>
          <obj_property name="ObjectShortName">i_inst[31:0]</obj_property>
       </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/decode/instruction">
+         <obj_property name="ElementShortName">instruction[31:0]</obj_property>
+         <obj_property name="ObjectShortName">instruction[31:0]</obj_property>
+      </wvobject>
       <wvobject type="array" fp_name="/r_tb/U/decode/o_inst">
          <obj_property name="ElementShortName">o_inst[31:0]</obj_property>
          <obj_property name="ObjectShortName">o_inst[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/decode/o_imm">
+         <obj_property name="ElementShortName">o_imm[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_imm[31:0]</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/r_tb/U/decode/o_rs1">
          <obj_property name="ElementShortName">o_rs1[4:0]</obj_property>
@@ -156,6 +163,10 @@
          <obj_property name="ElementShortName">o_alu_neg</obj_property>
          <obj_property name="ObjectShortName">o_alu_neg</obj_property>
       </wvobject>
+      <wvobject type="array" fp_name="/r_tb/U/decode/bra_hazard">
+         <obj_property name="ElementShortName">bra_hazard[1:0]</obj_property>
+         <obj_property name="ObjectShortName">bra_hazard[1:0]</obj_property>
+      </wvobject>
       <wvobject type="array" fp_name="/r_tb/U/decode/o_pc">
          <obj_property name="ElementShortName">o_pc[31:0]</obj_property>
          <obj_property name="ObjectShortName">o_pc[31:0]</obj_property>
@@ -164,7 +175,6 @@
    <wvobject type="group" fp_name="group100">
       <obj_property name="label">Exec</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="array" fp_name="/r_tb/U/iexec/i_pc">
          <obj_property name="ElementShortName">i_pc[31:0]</obj_property>
          <obj_property name="ObjectShortName">i_pc[31:0]</obj_property>
