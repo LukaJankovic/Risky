@@ -16,7 +16,7 @@ OBJS=$(wildcard *.o)
 COE=$(addsuffix .coe,$(basename $(SRC)))
 HEX=$(addsuffix .hex,$(basename $(SRC)))
 
-all: $(COE)
+all: $(COE) $(HEX)
 
 sim: $(HEX)
 
@@ -36,7 +36,7 @@ sim: $(HEX)
 	echo ";" >> $@
 
 clean:
-	rm -f $(COE) $(OBJS)
+	rm -f $(COE) $(OBJS) $(HEX)
 
 dump: $(TARGET).o
 	$(OBJDUMP) $(OBJDUMP_FLAGS) $(TARGET).o

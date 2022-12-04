@@ -13,7 +13,7 @@ end entity;
 architecture behavior of r_tb is
 
     constant W_LENGTH : integer := 32;
-    constant MEM_SIZE : integer := 4096; -- Can be increased to 2^32
+    constant MEM_SIZE : integer := 4096;
     constant PROG_FNAME : string := "../Prog/test.hex";
 
     type memfile is array (0 to MEM_SIZE - 1) of std_logic_vector (7 downto 0);
@@ -100,28 +100,28 @@ begin
     begin
         if rising_edge (clk) then
             if (to_integer (unsigned (mmem1_address)) < MEM_SIZE) then
-                mmem1_read_data <=   memory (to_integer (unsigned (mmem1_address) + 3)) &
-                                     memory (to_integer (unsigned (mmem1_address) + 2)) &
-                                     memory (to_integer (unsigned (mmem1_address) + 1)) &
-                                     memory (to_integer (unsigned (mmem1_address)));
+                mmem1_read_data <=   memory (to_integer (unsigned (mmem1_address (11 downto 0)) + 3)) &
+                                     memory (to_integer (unsigned (mmem1_address (11 downto 0)) + 2)) &
+                                     memory (to_integer (unsigned (mmem1_address (11 downto 0)) + 1)) &
+                                     memory (to_integer (unsigned (mmem1_address (11 downto 0))));
             else
                 mmem1_read_data <= (others => 'X');
             end if;
 
             if (to_integer (unsigned (mmem2_address)) < MEM_SIZE) then
-                mmem2_read_data <=   memory (to_integer (unsigned (mmem2_address) + 3)) &
-                                     memory (to_integer (unsigned (mmem2_address) + 2)) &
-                                     memory (to_integer (unsigned (mmem2_address) + 1)) &
-                                     memory (to_integer (unsigned (mmem2_address)));
+                mmem2_read_data <=   memory (to_integer (unsigned (mmem2_address (11 downto 0)) + 3)) &
+                                     memory (to_integer (unsigned (mmem2_address (11 downto 0)) + 2)) &
+                                     memory (to_integer (unsigned (mmem2_address (11 downto 0)) + 1)) &
+                                     memory (to_integer (unsigned (mmem2_address (11 downto 0))));
             else
                 mmem2_read_data <= (others => 'X');
             end if;
 
             if (mmem2_we = '1') then
-                memory (to_integer (unsigned (mmem2_address) + 3)) <= mmem2_write_data (31 downto 24);
-                memory (to_integer (unsigned (mmem2_address) + 2)) <= mmem2_write_data (23 downto 16);
-                memory (to_integer (unsigned (mmem2_address) + 1)) <= mmem2_write_data (15 downto 8);
-                memory (to_integer (unsigned (mmem2_address))) <= mmem2_write_data (7 downto 0);
+                memory (to_integer (unsigned (mmem2_address (11 downto 0))) + 3) <= mmem2_write_data (31 downto 24);
+                memory (to_integer (unsigned (mmem2_address (11 downto 0))) + 2) <= mmem2_write_data (23 downto 16);
+                memory (to_integer (unsigned (mmem2_address (11 downto 0))) + 1) <= mmem2_write_data (15 downto 8);
+                memory (to_integer (unsigned (mmem2_address (11 downto 0)))) <= mmem2_write_data (7 downto 0);
             end if;
         end if;
     end process;

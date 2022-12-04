@@ -101,6 +101,10 @@ architecture behavior of r_main is
             i_next_pc   : in std_logic_vector (31 downto 0);
             i_cmp_op    : in std_logic_vector (2 downto 0);
 
+            i_wb_inst       : in std_logic_vector (31 downto 0);
+            i_wb_ar_fwd     : in std_logic_vector (31 downto 0);
+            i_wb_mem_fwd    : in std_logic_vector (31 downto 0);
+
             o_alu_res   : out std_logic_vector (31 downto 0);
             o_cmp_res   : out std_logic;
             o_mdata     : out std_logic_vector (31 downto 0);
@@ -171,20 +175,23 @@ architecture behavior of r_main is
     signal idecode_o_cmp_op     : std_logic_vector (2 downto 0);
     signal idecode_o_next_pc    : std_logic_vector (31 downto 0);
 
-    signal iexec_i_inst     : std_logic_vector (31 downto 0);
-    signal iexec_o_inst     : std_logic_vector (31 downto 0);
-    signal iexec_i_pc       : std_logic_vector (31 downto 0);
-    signal iexec_i_imm      : std_logic_vector (31 downto 0);
-    signal iexec_i_arg1     : std_logic_vector (31 downto 0);
-    signal iexec_i_arg2     : std_logic_vector (31 downto 0);
-    signal iexec_i_alu_op   : std_logic_vector (2 downto 0);
-    signal iexec_i_alu_neg  : std_logic;
-    signal iexec_i_next_pc  : std_logic_vector (31 downto 0);
-    signal iexec_i_cmp_op   : std_logic_vector (2 downto 0);
-    signal iexec_o_alu_res  : std_logic_vector (31 downto 0);
-    signal iexec_o_cmp_res  : std_logic;
-    signal iexec_o_mdata    : std_logic_vector (31 downto 0);
-    signal iexec_o_next_pc  : std_logic_vector (31 downto 0);
+    signal iexec_i_inst         : std_logic_vector (31 downto 0);
+    signal iexec_o_inst         : std_logic_vector (31 downto 0);
+    signal iexec_i_pc           : std_logic_vector (31 downto 0);
+    signal iexec_i_imm          : std_logic_vector (31 downto 0);
+    signal iexec_i_arg1         : std_logic_vector (31 downto 0);
+    signal iexec_i_arg2         : std_logic_vector (31 downto 0);
+    signal iexec_i_alu_op       : std_logic_vector (2 downto 0);
+    signal iexec_i_alu_neg      : std_logic;
+    signal iexec_i_next_pc      : std_logic_vector (31 downto 0);
+    signal iexec_i_cmp_op       : std_logic_vector (2 downto 0);
+    signal iexec_i_wb_inst      : std_logic_vector (31 downto 0);
+    signal iexec_i_wb_ar_fwd    : std_logic_vector (31 downto 0);
+    signal iexec_i_wb_mem_fwd   : std_logic_vector (31 downto 0);
+    signal iexec_o_alu_res      : std_logic_vector (31 downto 0);
+    signal iexec_o_cmp_res      : std_logic;
+    signal iexec_o_mdata        : std_logic_vector (31 downto 0);
+    signal iexec_o_next_pc      : std_logic_vector (31 downto 0);
 
     signal memory_i_inst    : std_logic_vector (31 downto 0);
     signal memory_o_inst    : std_logic_vector (31 downto 0);
@@ -241,22 +248,25 @@ begin
     );
 
     iexec : r_iexec port map (
-        clk         => clk,
-        reset       => reset,
-        i_inst      => iexec_i_inst,
-        o_inst      => iexec_o_inst,
-        i_pc        => iexec_i_pc,
-        i_imm       => iexec_i_imm,
-        i_arg1      => iexec_i_arg1,
-        i_arg2      => iexec_i_arg2,
-        i_alu_op    => iexec_i_alu_op,
-        i_alu_neg   => iexec_i_alu_neg,
-        i_next_pc   => iexec_i_next_pc,
-        i_cmp_op    => iexec_i_cmp_op,
-        o_alu_res   => iexec_o_alu_res,
-        o_cmp_res   => iexec_o_cmp_res,
-        o_mdata     => iexec_o_mdata,
-        o_next_pc   => iexec_o_next_pc
+        clk             => clk,
+        reset           => reset,
+        i_inst          => iexec_i_inst,
+        o_inst          => iexec_o_inst,
+        i_pc            => iexec_i_pc,
+        i_imm           => iexec_i_imm,
+        i_arg1          => iexec_i_arg1,
+        i_arg2          => iexec_i_arg2,
+        i_alu_op        => iexec_i_alu_op,
+        i_alu_neg       => iexec_i_alu_neg,
+        i_next_pc       => iexec_i_next_pc,
+        i_cmp_op        => iexec_i_cmp_op,
+        i_wb_inst       => iexec_i_wb_inst,
+        i_wb_ar_fwd     => iexec_i_wb_ar_fwd,
+        i_wb_mem_fwd    => iexec_i_wb_mem_fwd,
+        o_alu_res       => iexec_o_alu_res,
+        o_cmp_res       => iexec_o_cmp_res,
+        o_mdata         => iexec_o_mdata,
+        o_next_pc       => iexec_o_next_pc
     );
 
     memory : r_memory port map (
@@ -315,6 +325,10 @@ begin
     iexec_i_inst <= idecode_o_inst;
     iexec_i_arg1 <= reg_file_o_data1;
     iexec_i_arg2 <= reg_file_o_data2;
+
+    iexec_i_wb_inst <= memory_o_inst;
+    iexec_i_wb_ar_fwd <= memory_o_ar;
+    iexec_i_wb_mem_fwd <= mmem2_read_data;
 
     memory_i_inst <= iexec_o_inst;
     memory_i_mdata <= iexec_o_mdata;

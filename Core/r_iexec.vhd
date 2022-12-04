@@ -27,6 +27,10 @@ entity r_iexec is
         i_next_pc   : in std_logic_vector (31 downto 0);
         i_cmp_op    : in std_logic_vector (2 downto 0);
 
+        i_wb_inst       : in std_logic_vector (31 downto 0);
+        i_wb_ar_fwd     : in std_logic_vector (31 downto 0);
+        i_wb_mem_fwd    : in std_logic_vector (31 downto 0);
+
         o_alu_res   : out std_logic_vector (31 downto 0);
         o_cmp_res   : out std_logic;
         o_mdata     : out std_logic_vector (31 downto 0);
@@ -63,7 +67,10 @@ architecture behavior of r_iexec is
 
     alias rs1   : std_logic_vector (4 downto 0) is i_inst (19 downto 15);
     alias rs2   : std_logic_vector (4 downto 0) is i_inst (24 downto 20);
-    alias rd : std_logic_vector (4 downto 0) is i_inst (11 downto 7);
+    alias rd    : std_logic_vector (4 downto 0) is i_inst (11 downto 7);
+
+    alias wb_op     : std_logic_vector (6 downto 0) is i_wb_inst (6 downto 0);
+    alias wb_dest   : std_logic_vector (4 downto 0) is i_wb_inst (11 downto 7);
 
     signal arg1 : std_logic_vector (31 downto 0) := (others => '0');
     signal arg2 : std_logic_vector (31 downto 0) := (others => '0');
@@ -74,25 +81,44 @@ architecture behavior of r_iexec is
 
     signal cr : std_logic;
 
+    signal prev_op      : std_logic_vector (6 downto 0) := (others => '0');
     signal prev_dest    : std_logic_vector (4 downto 0) := (others => '0');
 
 begin
 
-    data_fwd : process (i_inst)
+    data_fwd : process (i_inst, ar, i_wb_inst, i_wb_ar_fwd)
     begin
-        if (prev_dest = rs1) then
-            arg1 <= std_logic_vector (ar);
-            arg2 <= i_arg2;
 
-        elsif (prev_dest = rs2) then
-            arg1 <= i_arg1;
-            arg2 <= std_logic_vector (ar);
+        arg1 <= i_arg1;
+        arg2 <= i_arg2;
 
-        else
-            arg1 <= i_arg1;
-            arg2 <= i_arg2;
+        if (prev_dest /= "0000") then
 
+            if (wb_op /= OP_SB) then
+                if (wb_dest = rs1) then
+                    if (wb_op = OP_LB) then
+                        arg1 <= i_wb_mem_fwd;
+                    else
+                        arg1 <= std_logic_vector (i_wb_ar_fwd);
+                    end if;
+                elsif (wb_dest = rs2) then
+                    if (wb_op = OP_LB) then
+                        arg2 <= i_wb_mem_fwd;
+                    else
+                        arg2 <= std_logic_vector (i_wb_ar_fwd);
+                    end if;
+                end if;
+            end if;
+
+            if (prev_op /= OP_SB and prev_op /= OP_LB) then
+                if (prev_dest = rs1) then
+                    arg1 <= std_logic_vector (ar);
+                elsif (prev_dest = rs2) then
+                    arg2 <= std_logic_vector (ar);
+                end if;
+            end if;
         end if;
+
     end process;
 
     a1_mux : process (i_inst, arg1)
@@ -203,6 +229,7 @@ begin
     begin
         if rising_edge (clk) then
             prev_dest <= rd;
+            prev_op <= op;
         end if;
     end process;
 

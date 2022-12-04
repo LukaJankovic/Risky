@@ -128,6 +128,17 @@ begin
         end case;
     end process;
 
+    decode_alu_neg : process (instruction)
+    begin
+        case op is
+            when OP_ADD =>
+                o_alu_neg <= alu_neg;
+            
+            when others =>
+                o_alu_neg <= '0';
+        end case;
+    end process;
+
     pc : process (clk)
     begin
         if rising_edge (clk) then
@@ -140,7 +151,6 @@ begin
     o_rs1 <= rs1;
     o_rs2 <= rs2;
 
-    o_alu_neg <= alu_neg;
 
     -- TODO: calculate target pc when jump
 
